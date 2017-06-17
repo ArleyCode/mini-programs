@@ -1,0 +1,124 @@
+<import src="../../components/picker-city/picker-city.wxml" />
+<import src="../../components/prompt/prompt.wxml" />
+<template name="wxParseImg">
+  <image class="{{item.classStr}} wxParse-{{item.tag}}" data-from="{{item.from}}" data-src="{{item.attr.src}}" data-idx="{{item.imgIndex}}" src="{{item.attr.src}}" mode="aspectFit" bindload="wxParseImgLoad" bindtap="wxParseImgTap" mode="widthFix" style="width:{{item.width}}px;"
+  />
+</template>
+
+<template name="WxEmojiView">
+  <view class="WxEmojiView wxParse-inline" style="{{item.styleStr}}">
+    <block wx:for="{{item.textArray}}" wx:key="">
+      <block class="{{item.text == '\\n' ? 'wxParse-hide':''}}" wx:if="{{item.node == 'text'}}">{{item.text}}</block>
+      <block wx:elif="{{item.node == 'element'}}">
+        <image class="wxEmoji" src="{{item.baseSrc}}{{item.text}}" />
+      </block>
+    </block>
+  </view>
+</template>
+
+
+<template name="picker-qty">
+  <view class="wux-picker-container" wx:if="{{visible}}">
+    <view class="weui-mask {{ animateCss[1] }}" hidden="{{!visible}}" bindtap="onCancel"></view>
+    <view class="wux-picker {{ animateCss[0] }}">
+      <view class="picker-header">
+        <view class="info_picker-header-inner1">
+          <image src="{{imageUrl}}" style="height:100px;width:100px;position:absolute;top:-22px;left:22px;z-index:99999;border:1rpx solid #d9d9d9;"></image>
+          <view style="color:#f40e0e;">{{amount}}</view>
+          <view>库存{{inventory}}件</view>
+          <view>数量：{{buyqty}}</view>
+          <view class="info_cenal-x" bindtap="onCancel"></view>
+        </view>
+      </view>
+      <view class="weui-cells weui-cells_after-title" style="height:100%;">
+        <view class="weui-cell" style="border:0.5px solid #D9D9D9;text-align:left;padding-left:22px;">
+          <view class="weui-cell__bd">数量</view>
+          <view class="weui-cell__ft">
+            <view class="wux-xnumber">
+              <view bindtap="onSub" class="wux-number-selector wux-number-selector-sub {{ disabledMin ? 'wux-number-disabled' : '' }}">-</view>
+              <view class="wux-number-input">{{ buyqty }}</view>
+              <view bindtap="onAdd" class="wux-number-selector wux-number-selector-plus {{ disabledMax ? 'wux-number-disabled' : '' }}">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="info_picker-floor">
+        <button hidden="{{comvisible}}" class="wux-btn-cart" style="background-color:#ff8522;" bindtap="addMyCart">加入购物车</button>
+        <button hidden="{{comvisible}}" class="wux-btn-buy" style="background-color:#f40e0e;" bindtap="onBuyNow">立即购买</button>
+        <button hidden="{{!comvisible}}" style="background-color:#f40e0e;width: 80%; margin:auto 10%;" bindtap="onBuyNow">确认</button>
+      </view>
+    </view>
+  </view>
+</template>
+<template is="picker-city" data="{{ ...$wux.pickerCity.city }}" />
+<template is="picker-qty" data="{{ ...buyinfo }}" />
+<view class="container">
+  <scroll-view scroll-x="{{false}}" scroll-y="{{true}}" style="background:#f8f8f8;height:{{windowHeight-10}}px;">
+    <swiper indicator-dots="{{true}}" indicator-color="white" indicator-active-color="#f40e0e" autoplay="{{true}}" style="height:{{height6}}px;">
+      <block wx:key="unique" wx:for="{{proInfo.images}}">
+        <swiper-item>
+          <image style="width:100%;height:100%;" src="{{item.url}}" class="slide-image" width="100%" height="60%" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="info_content ">
+      <view class="info_container ">{{proInfo.spu.spu_name}}</view>
+      <view class="info_container " style="color:#f40e0e;padding-top:9px; ">
+        <text>微信价：</text>{{buyinfo.price}}</view>
+      <view class="info_container " style="color:#888888;font-size:14px;padding-bottom:6px; ">原价：
+        <text style="text-decoration:line-through; ">{{buyinfo.market_price}}</text>
+      </view>
+      <view class="info_position info_container ">
+        <text class="text " style="text-align:left; ">送至</text>
+        <view bindtap="onTapCity">
+          <image class="img" src="../../assets/images/iconfont-picker.png"></image>{{position.address}}</view>
+        <text class="text " style="text-align:right; ">免运费</text>
+      </view>
+      <view class="info_qtyview info_container " bindtap="changeBuyQty">数量：{{buyinfo.buyqty}}</view>
+
+      <view class="page__bd">
+        <view class="weui-tab">
+          <view class="weui-navbar">
+            <block wx:for-items="{{ tabs}}" wx:key="{{ index }}">
+              <view id="{{index}}" class="weui-navbar__item {{ activeIndex==index ? 'weui-bar__item_on' : '' }} " bindtap="tabClick">
+                <view class="weui-navbar__title">{{ item }}</view>
+              </view>
+            </block>
+            <view class="weui-navbar__slider" style="left: {{ sliderLeft }}px; transform: translateX({{ sliderOffset }}px); -webkit-transform: translateX({{ sliderOffset }}px);"></view>
+          </view>
+        </view>
+      </view>
+
+      <view style="display:{{activeIndex==0?'block':'none'}}">
+        <!--img类型-->
+        <block wx:key="imgIndex" wx:for="{{description.nodes}}" wx:for-item="item" wx:for-index="index">
+          <template is="wxParseImg" data="{{item}}" />
+        </block>
+        <!--<template is="wxParse" data="{{wxParseData:description.nodes}}" />-->
+      </view>
+      <view style="display:{{activeIndex==1?'block':'none'}}" class="info_attrs">
+        <block wx:for-items="{{proInfo.skus[0].sku_propertys}}" wx:key="{{ index }}">
+          <view id="attr-{{index}}" class="info_attr">
+            <view>{{item.skuPropertyName}}</view>
+            <view style="text-align:right;">{{item.skuPropertyValue}}</view>
+          </view>
+        </block>
+      </view>
+      <view style="display:{{activeIndex==2?'block':'none'}}">
+        <template is="prompt" data="{{ ...$wux.prompt.msg3 }}" />
+      </view>
+    </view>
+  </scroll-view>
+  <view class="info_floor">
+    <button class="btn_mycart" bindtap="onToMyCart">
+      <view class="info_mycartnum">+{{mycartnum}}</view>
+      <image src="../../assets/images/aa3.png"></image>
+    </button>
+
+    <button class="btn_me" bindtap="onToMe">
+      <image src="../../assets/images/me2.png"></image>
+    </button>
+    <button bindtap="onBuyNow" class="btn-add-shopcart" bindtap="addMyCart">加入购物车</button>
+    <button class="btn-buy-now" style="background-color:#f40e0e;" bindtap="onBuyNow">立即购买</button>
+  </view>
+</view>

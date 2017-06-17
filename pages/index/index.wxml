@@ -1,0 +1,61 @@
+<import src="../../components/product-buyitem/product-buyitem.wxml" />
+
+<view class="container">
+  <view class="index_recommend-box">
+    <view style="color:{{selectIndex===-1?'#e4393c':''}};" data-index="-1" bindtap="onSelectItem" class="all">全部</view>
+    <scroll-view scroll-x="{{true}}" style="width:{{windowWidth-120}}px;{{rotate===0?'white-space: nowrap;':''}}">
+      <block wx:key="unique" wx:for="{{proGroup}}" wx:for-index="index" wx:for-item="item">
+        <view style="color:{{selectIndex===index?'#e4393c':''}};" class="index_recommend-hot-box" bindtap="onSelectItem" data-index="{{index}}" data-classify_id="{{item.classify_id}}">
+          {{item.classify_name}}
+        </view>
+      </block>
+    </scroll-view>
+    <view class="index_recommend-icon" bindtap="onShowAllgroup">
+      <image animation="{{animationData}}" src="../../assets/images/axp1.png"></image>
+    </view>
+  </view>
+  <scroll-view scroll-y="true" bindscrolltolower="onToLower" lower-threshold="50" style="width:{{windowWidth}}px;height:{{windowHeight-40}}px;padding-top:40px;">
+    <swiper indicator-dots="{{true}}" indicator-color="white" indicator-active-color="#e4393c" autoplay="{{true}}" style="height:150px;">
+      <block wx:key="unique" wx:for="{{titleImgs}}" wx:for-item="item">
+        <swiper-item>
+          <image style="width:100%;height:100%;" src="{{item}}" class="slide-image" width="100%" height="60%" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="index_home-header" id="homeHeader">
+      <button id='searchIinput' bindtap='onOpenSearchView' class='index_search-input'>
+        <icon type="search" color="#999999" size="18" style="width:0.85rem;height:0.85rem;" />搜索金松电器</button>
+    </view>
+    <view class="index_subground">
+      <block wx:key="unique" wx:for-item="item" wx:for-index="index" wx:for="{{selectItems.subGrounds}}">
+        <view style="height:{{windowWidth*0.21+20}}px;width:{{windowWidth*0.21}}px;padding:5px {{windowWidth*0.02}}px;" bindtap="onShowSubPro" class="index_subground_item" data-classify_id="{{item.classify_id}}">
+          <image style="width:{{windowWidth*0.21}}px;height:{{windowWidth*0.21}}px;" class="img" src="{{item.imgurl}}"></image>
+          <label class="name">{{item.classify_name}}</label>
+        </view>
+      </block>
+    </view>
+
+    <view style="margin:10px auto;width:{{windowWidth*0.96}}px;text-align:center;color:#e4393c;">
+      <image class="index_a6zimg" src="../../assets/images/a6z.png"></image>
+      <image class="index_ahaimg" src="../../assets/images/aha.png"></image>
+      <label>{{selectItems.classify_name}}</label>
+      <image class="index_a6zimg" src="../../assets/images/a6z.png"></image>
+    </view>
+    <view>
+      <view wx:for="{{selectItems.products}}" wx:key="*proThis" wx:for-index="iidx" wx:for-item="product">
+        <template is="product-view" data="{{...product}}" />
+      </view>
+    </view>
+    <view class="weui-tab__content" hidden="{{ selectItems.products.length!==0 }}">
+      <view hidden="{{ selectItems.products.length!==0 }}" class="prompt-container weui-animate-fade-in">
+        <view class="prompt-message">
+          <image class="prompt-icon" src="../../assets/images/iconfont-empty.png"></image>
+          <view class="prompt-title">暂无{{selectItems.classify_name}}</view>
+          <view class="prompt-text"></view>
+        </view>
+
+      </view>
+    </view>
+  </scroll-view>
+
+</view>

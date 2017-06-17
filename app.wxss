@@ -1,0 +1,48 @@
+@import "components/wux.wxss";
+@import "assets/styles/skyvow.wxss";
+@import "assets/styles/weui.wxss";
+
+/*font-size :15px;*/
+/*红色 #e4393c*/
+/*绿色  #1AAD19*/
+/*白色 #fff*/
+/*黑色 #000*/
+/*重要字体 #222222*/
+/*辅助字体 #999999*/
+/*段落字体 #666666*/
+/*分割线 #d7d7d7*/
+/*内容区域背景色 #f3f5f7*/
+/*背景底色 #f8f8f8*/
+
+view,
+input,
+page view, 
+page button,
+scroll-view,
+page text {
+  font-size: .85rem;
+}
+
+.container{
+    background-color:#f8f8f8;
+}
+
+/**隐藏 scroll-view 的滚动条*/
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+/*金额*/
+.price {
+  color: #f40e0e;
+}
+
+.rtext {
+  float: right;
+}
+/*提示文字*/
+.normaltext{
+color: #999999;
+font-size: 0.75rem;
+}

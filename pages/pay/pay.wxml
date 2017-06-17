@@ -1,0 +1,123 @@
+<import src="../../components/picker-city/picker-city.wxml" />
+<template is="picker-city" data="{{ ...$wux.pickerCity.area }}" />
+<template name="picker-choose">
+  <view class="wux-picker-container" wx:if="{{ visible }}" style="z-index:20;">
+    <view class="weui-mask {{ animateCss[1] }}" hidden="{{!visible }}" bindtap="onCancel"></view>
+    <view class="wux-picker {{ animateCss[0] }}" style="height:{{windowHeight * 0.8}}px;">
+      <view class="picker-header">
+        <view class="picker-header-inner">
+          <view class="picker-button close-picker cancel" bindtap="onCancel">取消</view>
+          <view class="title">{{opera=="add"?'新增收货地址':'选择收货地址'}}</view>
+          <view hidden="{{opera=='add'}}" class="picker-button close-picker confirm" bindtap="onCancel">确定</view>
+        </view>
+      </view>
+      <picker-view class="wux-picker-view pay_picker-view" style="height:{{windowHeight * 0.8 - 120}}px;">
+        <scroll-view scroll-x="{{false}}" scroll-y="{{true}}" style="height:{{windowHeight * 0.8 - 125}}px;">
+          <block wx:if="{{opera=='choose'}}">
+            <view wx:for="{{ recevices }}" wx:for-index="index" wx:key="item" class="childview">
+              <view data-index="{{index}}" bindtap="onSetUseItem" class="childview-content">
+              <icon type="success" size="15" class="useicon" color="{{item.isUse?'':'#fff'}}"  />
+                <view>{{item.name}} {{item.tel}}
+                  <text style="display:{{item.isdefault?'inline-block':'none'}}" class="defaulttext">已默认</text>
+                </view>
+                <view>{{item.useArea}} {{item.address}}</view>
+              </view>
+              <view class="childview-btnarea">
+                <button data-index="{{index}}" bindtap="onEditRecevice" ><image src="/assets/images/als.png"></image>编辑</button>
+                <button data-index="{{index}}" bindtap="onDelRecevice" ><icon type="clear" size="20" color="#e4393c"/> 删除</button>
+              </view>
+            </view>
+          </block>
+          <block wx:if="{{opera=='add'}}">
+            <form class="wux-picker-form" bindsubmit="formSubmit">
+              <view style='background-color:#fff;'>
+                <input value="{{defaultRecevice.name}}" name="name" placeholder="收货人姓名" />
+                <input value="{{defaultRecevice.tel}}" name="tel" placeholder="联系方式" />
+                <view bindtap="onChooseArea">{{defaultRecevice.area}}</view>
+                <input value="{{defaultRecevice.address}}" name="address" placeholder="街道地址" />
+                <input value="{{defaultRecevice.zip}}" name="zip" placeholder="邮政编码（可选）" />
+              </view>
+              <view class="wux-checkbox">
+                <checkbox-group name="isdefault">
+                  <label for="chk_isdefault">设为默认地址
+                    <checkbox id="chk_isdefault" checked="{{defaultRecevice.isdefault}}" value="1" />
+                  </label>
+                </checkbox-group>
+              </view>
+              <view class="btn-area">
+                <button formType="submit">保存</button>
+              </view>
+            </form>
+          </block>
+        </scroll-view>
+      </picker-view>
+      <view hidden="{{opera=='add'}}" class="btn-area">
+        <button bindtap="onAddRecevive">新增收货地址</button>
+      </view>
+    </view>
+  </view>
+</template>
+<template name="picker-recevice">
+  <view class="pay_component-recevice" bindtap="onChooseRecevice">
+    <block wx:if="{{!isChooseRecevice}}">
+      <view class="childview-content">请填写收货地址</view>
+    </block>
+    <block wx:elif="{{isChooseRecevice}}">
+      <view class="childview-content">
+        <view>{{useRecevice.name}} {{useRecevice.tel}}</view>
+        <view>{{useRecevice.useArea}} {{useRecevice.address}}</view>
+      </view>
+    </block>
+    <image class="axqimg" src="../../assets/images/axq.png"></image>
+    <image class="b1simg" src="../../assets/images/b1s.png"></image>
+  </view>
+</template>
+<template is="picker-choose" data="{{...pageData}}" />
+<view class="container">
+  <scroll-view scroll-x="{{false}}" scroll-y="{{true}}" style="height:{{windowHeight - 10}}px;">
+    <template is="picker-recevice" data="{{ ...pageData }}" />
+    <view>
+      <view class="pay_container  header"><image src="../../assets/images/ae9.png"></image> 购物清单</view>
+      <block  wx:key="unique" wx:for-index="index" wx:for="{{pageData.proinfos}}" wx:for-item="proinfo">
+        <view class="pay_container">
+          <view class="productinfo">
+            <image class="proImage" src="{{proinfo.imageUrl}}"></image>
+            <view class="proContent">
+              <view class="name">{{proinfo.sku_name}}</view>
+              <view class="qty">数量{{proinfo.qty}}</view>
+              <view class="price">{{proinfo.price}}</view>
+            </view>
+          </view>
+          <view class="delivery_way">
+            运送方式
+            <text class='rtext'>快递 免运费</text>
+          </view>
+          <view class="pay_container payway">
+            <text>支付方式</text>
+            <text class="rtext">在线支付</text>
+          </view>
+          <view class="pay_container input">
+            <input placeholder="给卖家留言" data-index="{{0}}" data-index="{{index}}"  bindinput="onInput" cursor-spacing="10" />
+          </view>
+          <view class="item_floor">共{{proinfo.qty}}件商品 合计:
+            <text class="price">{{proinfo.amount}}</text>
+          </view>
+        </view>
+        <view class="pay_container">
+          <view>
+            商品金额
+            <text class="price rtext">{{proinfo.amount}}</text>
+          </view>
+          <view>运费
+            <text class="price rtext">+￥0.00</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+  <view class="pay_container floor">
+    实付：
+    <text class="price">{{pageData.amount}}</text>
+    <button bindtap="onPay">微信支付</button>
+  </view>
+</view>

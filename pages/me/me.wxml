@@ -1,0 +1,37 @@
+<import src="../../components/prompt/prompt.wxml" />
+<view class="container">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for-items="{{ tabs}}" wx:key="{{ index }}">
+          <view id="{{ index }}" class="weui-navbar__item {{ activeIndex == index ? 'weui-bar__item_on' : '' }}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{ item }}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{ sliderLeft }}px; transform: translateX({{ sliderOffset }}px); -webkit-transform: translateX({{ sliderOffset }}px);"></view>
+      </view>
+    </view>
+  </view>
+  <scroll-view class="me_orderview" scroll-x="{{false}}" scroll-y="{{true}}" style="height:{{windowHeight-55}}px">
+    <block wx:key="{{ ID }}" wx:for="{{list}}" wx:for-item="item" wx:for-index="index">
+      <view class="me_orderitem" data-id="{{item.ID}}"  bindtap="onShowOrderInfo">
+        <view>状态：
+          <label>{{item.OrderStatus}}</label>
+        </view>
+        <view>总价：
+          <label>{{item.Amount}}</label>
+        </view>
+        <view class="proitem">
+          <image class="img" src="{{item.ImageUrl}}"></image>
+          <view class="proname">{{item.ProductName}}
+            <view class="proqty">{{item.Qty}}件</view>
+          </view>
+
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <view class="weui-tab__content" hidden="{{ activeIndex != 2 }}">
+    <template is="prompt" data="{{ ...$wux.prompt.msg3 }}" />
+  </view>
+</view>

@@ -1,0 +1,99 @@
+<modal hidden="{{modelhidden}}" title="确认提示" confirm-text="取消" bindconfirm="confirm" no-cancel="{{true}}">
+  <scroll-view scroll-x="{{false}}" scroll-y="{{true}}" style="height:{{windowHeight*0.7}}px;">
+    <view class="order_container">
+      <view class="product">
+        <image class="img" style="width:{{windowWidth*0.4}}px;height:{{windowWidth*0.3}}px;" src="{{order.ImageUrl}}"></image>
+        <view class="title" style="width:{{windowWidth*0.54}}px;">
+          <view style="width:{{(windowWidth)*0.62}}px;">{{order.ProductName}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="order_container">
+      <view class="amount">实付款
+        <text class="rtext">{{order.Amount}}</text>
+      </view>
+    </view>
+    <view class="order_container">
+      <form bindsubmit="onSubmit">
+        <view class="normaltext" style="padding:13px 0px;">可申请的最大退货数量等于您购买的商品数量。</view>
+        <view>
+          退货数量
+          <view class="wux-xnumber">
+            <view  bindtap="onNumMinus" class="wux-number-selector wux-number-selector-sub ">-</view>
+            <input value="{{reInfo.Qty}}" class="wux-number-input" disabled="" type="number" />
+            <view bindtap="onNumPlus" class="wux-number-selector wux-number-selector-plus">+</view>
+          </view>
+        </view>
+      <view class="amount">退款金额
+        <text class="rtext price">{{reInfo.Amount}}</text>
+      </view>
+        <view class="normaltext" style="padding:13px 0px;">您为什么要退货？</view>
+        <input class="textarea" maxlength="-1" auto-height="{{true}}" cursor-spacing="20" placeholder="请描述您的退货原因。" auto-focus name="textarea" />
+<view class="price">{{message}}</view>
+请在联系客服前将本页面截图，方便客服更好的了解情况。
+        <button open-type="contact" form-type="submit"> 联系客服退货 </button>
+      </form>
+
+
+    </view>
+  </scroll-view>
+
+
+
+</modal>
+
+<view class="container">
+  <view class="order_container">
+    <view class="statusview">
+      <image class="img" src="../../assets/images/order_012.png"></image>
+      <view style="width:{{windowWidth*0.94-20}}px;line-height:26px;">
+        <view class="status">{{order.DesConfirmStatus}}</view>
+        <view class="date">{{order.OutDate}}</view>
+      </view>
+    </view>
+    <view class="recuser">
+      <image class="img" src="../../assets/images/iconfont-picker.png"></image>
+      <view style="width:{{windowWidth*0.94-20}}px;line-height:26px;">
+        <text>{{order.Contacts}}</text>
+        <text class="rtext">{{order.ContactsTel}}</text>
+        <view class="order_address">{{order.ReceiverAddress}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="order_container">
+    <view class="product">
+      <image class="img" style="width:{{windowWidth*0.3}}px;height:{{windowWidth*0.3}}px;" src="{{order.ImageUrl}}"></image>
+      <view class="title" style="width:{{windowWidth*0.64}}px;">
+        <view style="width:{{(windowWidth-120)*0.62}}px;">{{order.ProductName}}</view>
+        <view class='price'>{{order.Price}}
+          <view class="qty">
+            X{{order.Qty}}
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <view class="order_container">
+    <view class="fee">运费
+      <text class="rtext">￥0.00</text>
+    </view>
+    <view class="amount">实付款
+      <text class="rtext price">{{order.Amount}}</text>
+    </view>
+  </view>
+
+  <view class="order_container">
+    <view class="code normaltext">订单编号：{{order.TransactionId}}</view>
+    <view class="code normaltext">商家自编：{{order.Code}}</view>
+    <view class="code normaltext">下单时间：{{order.EditDate}}</view>
+  </view>
+
+  <view class="order_container tip" bindtap="onShowTip">关于退货
+    <image class="img" src="../../assets/images/iconfont-actionsheet.png"></image>
+  </view>
+<view class="order_container">
+<button style="margin:13px 0px;" bindtap="onTap">申请退货</button>
+</view>
+</view>

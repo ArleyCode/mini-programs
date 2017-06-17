@@ -1,0 +1,19 @@
+<template name="groupChild">
+  <image class="img" data-classify_id="{{classify_id}}" src="{{imgurl}}"></image>
+  <view class="title">{{classify_name}}</view>
+</template>
+<view class="container">
+  <scroll-view class="group_leftWin" scroll-x="{{false}}" scroll-y="{{true}}" style="width:{{leftWidth}}px;height:{{windowHeight}}px;">
+    <block wx:for="{{groups}}" wx:key="classify_id" wx:for-item="item" wx:for-index="index">
+      <button hover-class="none" data-classify_id="{{item.classify_id}}" bindtap="onShowChilren" class="group_titleBtn {{item.classify_id==clickid?'group_selectbtn':''}}">{{item.classify_name}}</button>
+    </block>
+  </scroll-view>
+
+
+  <scroll-view class="group_rightwin" scroll-x="{{false}}" scroll-y="{{true}}" style="width:{{windowWidth-leftWidth-10}}px;height:{{windowHeight}}px;padding:0 {{windowWidth*0.02}}px;">
+    <view wx:key="classify_id" wx:for="{{products}}" wx:for-item="item" data-classify_id="{{item.classify_id}}" class="group_childItem" bindtap="onShowProducts">
+      <template is="groupChild" data="{{...item}}" />
+    </view>
+  </scroll-view>
+
+</view>

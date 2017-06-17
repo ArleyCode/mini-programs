@@ -1,0 +1,25 @@
+<import src="../../components/product-buyitem/product-buyitem.wxml" />
+<view class="search_container">
+  <view class="header">
+    <view class="headerView">
+      <icon type="search" size="15" color="#666666"></icon>
+      <input bindfocus="onFocus" bindinput="onInputChange"  class="searchInput" placeholder="搜索金松产品" auto-focus/>
+    </view>
+    <scroll-view hidden="{{tipHide}}" style="height:{{windowHeight-45}}px;" class="tip_view">
+      <block wx:for="{{tipItems}}" wx:key="*this" wx:for-item="item">
+        <view style="width:{{windowWidth*0.96}}px;" class="tip_item" data-value="{{item.value}}" bindtap="doSearch">
+          {{item.text}}
+        </view>
+      </block>
+    </scroll-view>
+    <view class="view_group" bindtap="onShowGroup">
+      <image class="b7himg" src="../../assets/images/b7h.png"></image>
+      <view class="searchInput">商品分组</view>
+    </view>
+  </view>
+  <scroll-view bindscrolltolower="onToLower" scroll-x="{{false}}" scroll-y="{{true}}" style="height:{{windowHeight-100}}px;">
+  <view wx:for="{{data}}"  wx:key="*this" wx:for-item="product">
+    <template is="product-view" data="{{...product}}" />
+  </view>
+  </scroll-view>
+</view>

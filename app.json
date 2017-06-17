@@ -1,0 +1,53 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/order/order",
+        "pages/me/me",
+        "pages/search/search",
+        "pages/shoppingcart/shoppingcart",
+        "pages/info/info",
+        "pages/pay/pay",
+        "pages/group/group"
+    ],
+    "window": {
+        "backgroundTextStyle": "#000",
+        "navigationBarTitleText": "广州金松",
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": false,
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    },
+    "tabBar": {
+        "color": "#dddddd",
+        "selectedColor": "#f40e0e",
+        "borderStyle": "white",
+        "position": "bottom",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "iconPath": "assets/images/b7j.png",
+                "selectedIconPath": "assets/images/b7k.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/group/group",
+                "iconPath": "assets/images/b7h.png",
+                "selectedIconPath": "assets/images/b7i.png",
+                "text": "分类"
+            },
+            {
+                "pagePath": "pages/shoppingcart/shoppingcart",
+                "iconPath": "assets/images/b7f.png",
+                "selectedIconPath": "assets/images/b7g.png",
+                "text": "购物车"
+            },
+            {
+                "pagePath": "pages/me/me",
+                "iconPath": "assets/images/me2.png",
+                "selectedIconPath": "assets/images/me1.png",
+                "text": "我的"
+            }
+        ]
+    },
+    "debug": true
+}

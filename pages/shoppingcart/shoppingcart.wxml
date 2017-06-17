@@ -1,0 +1,34 @@
+<view>
+  <scroll-view scroll-x="{{false}}" scroll-y="{{true}}" style="background:#FFF;height:{{windowHeight - 44}}px;background-color: #f3f5f7;">
+    <view style="width:{{windowWidth}}px;margin:0px auto;">
+      <view wx:for="{{UserCart}}" wx:key="ID" wx:for-index="index" wx:for-item="item" class="shopcart_cartItem">
+        <view class="shopcart_chkbox shopcart_itemchk" data-index="{{index}}" data-tap="onCheck" bindtap="onTap">
+          <icon data-index="{{index}}" data-tap="onCheck" class="shopcart_chkIcon" type="{{item.isChk?'success':'circle'}}" color="{{item.isChk?'#e4393c':''}}" size="15" />
+        </view>
+        <view data-index="{{index}}" data-tap="onShowInfo" bindtap="onTap" class="shopcart_content">
+          <image style="max-width:90px" class="shopcart_img" src="{{item.ImageUrl}}"></image>
+          <view class="shopcart_item-content" style="width:{{windowWidth-140}}px;">
+            <view class="shopcart_name">{{item.spuName}}</view>
+            <view style="margin:6px 0px;">
+              <text class="price">{{item.Price}}</text>
+              <view class="shopcart_wux-xnumber shopcart_custom-xnumber">
+                <view data-index="{{index}}" data-tap="onNumMinus" bindtap="onTap" class="wux-number-selector wux-number-selector-sub ">-</view>
+                <input value="{{item.Qty}}" class="wux-number-input" disabled="" type="number" />
+                <view data-index="{{index}}" data-tap="onNumPlus" bindtap="onTap" class="wux-number-selector wux-number-selector-plus">+</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="shopcart_floor">
+    <view bindtap="onCheckAll" class="shopcart_chkbox shopcart_allchk">
+      <icon class="shopcart_chkIcon" type="{{isChkAll?'success':'circle'}}" color="{{isChkAll?'#e4393c':''}}"  size="15" />{{isChkAll?"反选":"全选"}}
+    </view>
+    <text class="price">总计：{{totalAmount}}</text>
+    <button style="{{totalQty===0?'background-color:#999999;':''}}" bindtap="{{totalQty===0?'':'onChosePayway'}}">去结算
+      <label style="font-size:12px;">({{totalQty}}件)</label>
+    </button>
+  </view>
+</view>

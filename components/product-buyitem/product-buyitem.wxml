@@ -1,0 +1,11 @@
+<template name="product-view">
+  <view class="weui-product-buyitem" data-is_onsale="1" data-include_description="{{true}}" data-spu_code="{{spu_code}}"  bindtap="itemviewClicked">
+    <image src="{{default_img}} " class="img"></image>
+    <view>
+      <view >{{spu_name}}</view>
+      <text style="color:#f40e0e;font-size:12pt;">￥{{low_sellprice}}</text>
+      <text style="color:#888888;font-size:12pt;margin-left:10px;text-decoration:line-through;">￥{{high_marketprice}}</text>
+      <button data-spu_code="{{spu_code}}" bindtap="itembuttonClicked" plain="{{false}}" class="buybutton">立即购买</button>
+    </view>
+  </view>
+</template>
